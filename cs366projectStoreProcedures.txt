@@ -1,0 +1,78 @@
+delimiter $$
+drop procedure if exists getArtistName;
+create procedure getArtistName(
+	IN searchingArtist  VARCHAR(255))
+begin
+	select full_name, nationality, style, birth, death
+	from Artist
+	where full_name LIKE searchingArtist;
+end $$
+delimiter ;
+
+-----------------------------------------------------------------
+
+delimiter $$
+drop procedure if exists getArtistInfoByID;
+create procedure getArtistInfoByID(
+	IN artistIDSearch INT)
+begin
+	SELECT full_name, nationality, style, birth, death
+	FROM Artist
+	WHERE artist_id LIKE artistIDSearch;
+end $$
+delimiter ;
+
+------------------------------------------------------------------
+
+delimiter $$
+drop procedure if exists getWorkInfoByID;
+create procedure getWorkInfoByID(
+	IN workIDSearch INT)
+begin
+	SELECT name, style, url, subject
+	FROM Work
+	WHERE work_id LIKE workIDSearch;
+end $$
+delimiter ;
+
+------------------------------------------------------------------
+
+delimiter $$
+drop procedure if exists getArtistWork;
+create procedure getArtistWork(
+	IN searchingArtist VARCHAR(255))
+begin
+	SELECT w.name
+	FROM Work w
+	JOIN Artist a ON a.artist_id = w.artist_id
+	WHERE a.full_name LIKE searchingArtist;
+end $$
+delimiter ;
+
+-----------------------------------------------------------------
+
+delimiter $$
+drop procedure if exists getWorkInMuseum;
+create procedure getWorkInMuseum(
+	IN searchingWork VARCHAR(255))
+begin
+	SELECT m.name
+	FROM Museum m
+	JOIN Work w ON w.museum_id = m.museum_id
+	WHERE w.name LIKE searchingWork;
+end$$
+delimiter ;
+
+-----------------------------------------------------------------
+
+delimiter $$
+drop procedure if exists getMuseumWork;
+create procedure getMuseumWork(
+	IN searchingMuseum VARCHAR(255))
+begin
+	SELECT w.name
+	FROM Work w
+	JOIN Museum m ON m.museum_id = w.museum_id
+	WHERE m.name LIKE searchingMuseum;
+end $$
+delimiter ;
