@@ -25,6 +25,32 @@ delimiter ;
 ------------------------------------------------------------------
 
 delimiter $$
+drop procedure if exists getArtistStyle;
+create procedure getArtistStyle(
+	IN artistName VARCHAR(255))
+begin
+	SELECT full_name, style
+	FROM Artist
+	WHERE full_name LIKE  artistName;
+end $$
+delimiter ;
+
+------------------------------------------------------------------
+
+delimiter $$
+drop procedure if exists getArtistBirthDeath;
+create procedure getArtistBirthDeath(
+	IN artistName VARCHAR(255))
+begin
+	SELECT full_name, birth, death
+	FROM Artist
+	WHERE full_name LIKE artistName;
+end $$
+delimiter ;
+
+------------------------------------------------------------------
+
+delimiter $$
 drop procedure if exists getWorkInfoByID;
 create procedure getWorkInfoByID(
 	IN workIDSearch INT)
@@ -32,6 +58,47 @@ begin
 	SELECT name, style, url, subject
 	FROM Work
 	WHERE work_id LIKE workIDSearch;
+end $$
+delimiter ;
+
+------------------------------------------------------------------
+
+delimiter $$
+drop procedure if exists getMuseumInfoByID;
+create procedure getMuseumInfoByID(
+	IN museumIDSearch INT)
+begin
+	SELECT name, phone, url
+	FROM Museum
+	WHERE museum_id LIKE museumIDSearch;
+end $$
+delimiter ;
+
+------------------------------------------------------------------
+
+delimiter $$
+drop procedure if exists getMuseumInfoByName;
+create procedure getMuseumInfoByName(
+	IN museumNameSearch VARCHAR(255))
+begin
+	SELECT name, phone, url
+	FROM Museum
+	WHERE name LIKE museumNameSearch;
+end $$
+delimiter ;
+
+------------------------------------------------------------------
+**Notes: I called my table MuseumHours and on the Word Document, someone referred to it as museum_hours.  Therefore, it will be slightly different between works if our table's names are different
+
+delimiter $$
+drop procedure if exists getMuseumDaysAndHours;
+create procedure getMuseumDaysAndHours(
+	IN museumNameSearch VARCHAR(255))
+begin
+	SELECT mh.day, mh.open, mh.close
+	FROM MuseumHours mh
+	JOIN Museum m ON mh.museum_id = m.museum_id
+	WHERE m.name LIKE museumNameSearch;
 end $$
 delimiter ;
 

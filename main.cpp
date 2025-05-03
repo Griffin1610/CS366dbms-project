@@ -13,20 +13,18 @@ const string username = "root";
 const string password = "";
 
 //--------------------Artist Queries-------------------------
-//Searching up all Artist's name
-vector<string> artistNameList() {
-    vector<string> artistName;
+//Searching up all Artist's ID
+vector<int> artistID() {
+    vector<int> result;
     try {
         sql::Driver* driver = get_driver_instance();
         unique_ptr<sql::Connection> con(driver->connect(server, username, password));
         con->setSchema("cs366project");
 
-        unique_ptr<sql::PreparedStatement> pstmt(con->prepareStatement("SELECT full_name FROM Artist"));
+        unique_ptr<sql::PreparedStatement> pstmt(con->prepareStatement("SELECT artist_id FROM Artist"));
         unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
         while (res->next()) {
-            //cout << res->getString("full_name") << endl;
-            //workIDs.push_back(res->getInt("work_id"));
-            artistName.push_back(res->getString("full_name"));
+            result.push_back(res->getInt("artist_id"));
         }
     }
     catch (sql::SQLException e)
@@ -35,13 +33,35 @@ vector<string> artistNameList() {
         system("pause");
         exit(1);
     }
-    return artistName;
+    return result;
+}
+
+//Searching up all Artist's name
+vector<string> artistNameList() {
+    vector<string> result;
+    try {
+        sql::Driver* driver = get_driver_instance();
+        unique_ptr<sql::Connection> con(driver->connect(server, username, password));
+        con->setSchema("cs366project");
+
+        unique_ptr<sql::PreparedStatement> pstmt(con->prepareStatement("SELECT full_name FROM Artist"));
+        unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
+        while (res->next()) {
+            result.push_back(res->getString("full_name"));
+        }
+    }
+    catch (sql::SQLException e)
+    {
+        cout << "Could not connect to server. Error message: " << e.what() << endl;
+        system("pause");
+        exit(1);
+    }
+    return result;
 }
 
 //Searching up all Artist's nationality
 vector<pair<string, string>> artistNationalityList() {
-    //vector<string> artistNameNationality;
-    vector<pair<string, string>> artistNameNationality;
+    vector<pair<string, string>> result;
     try {
         sql::Driver* driver = get_driver_instance();
         unique_ptr<sql::Connection> con(driver->connect(server, username, password));
@@ -52,7 +72,7 @@ vector<pair<string, string>> artistNationalityList() {
         while (res->next()) {
             string name = string(res->getString("full_name"));
             string nationality = string(res->getString("nationality"));
-            artistNameNationality.emplace_back(name, nationality);
+            result.emplace_back(name, nationality);
         }
     }
     catch (sql::SQLException e)
@@ -61,7 +81,64 @@ vector<pair<string, string>> artistNationalityList() {
         system("pause");
         exit(1);
     }
-    return artistNameNationality;
+    return result;
+}
+
+//Searching up Artist's name to see Artist's style
+vector<string> searchArtistStyle(const string& artistName) {
+    vector<string> result;
+    try {
+        sql::Driver* driver = get_driver_instance();
+        unique_ptr<sql::Connection> con(driver->connect(server, username, password));
+        con->setSchema("cs366project");
+
+        unique_ptr<sql::PreparedStatement> pstmt(con->prepareStatement("CALL getArtistStyle(?)"));
+        pstmt->setString(1, artistName);
+        unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
+        if (res->next()) {
+            result.push_back(res->getString("full_name"));
+            result.push_back(res->getString("style"));
+        }
+        else {
+            cout << "Artist not found." << endl;
+        }
+    }
+    catch (sql::SQLException e)
+    {
+        cout << "Could not connect to server. Error message: " << e.what() << endl;
+        system("pause");
+        exit(1);
+    }
+    return result;
+}
+
+//Searching up Artist's name to see Artist's birth and death
+vector<string> searchArtistBirthAndDeath(const string& artistName) {
+    vector<string> result;
+    try {
+        sql::Driver* driver = get_driver_instance();
+        unique_ptr<sql::Connection> con(driver->connect(server, username, password));
+        con->setSchema("cs366project");
+
+        unique_ptr<sql::PreparedStatement> pstmt(con->prepareStatement("CALL getArtistBirthDeath(?)"));
+        pstmt->setString(1, artistName);
+        unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
+        if (res->next()) {
+            result.push_back(res->getString("full_name"));
+            result.push_back(to_string(res->getInt("birth")));
+            result.push_back(to_string(res->getInt("death")));
+        }
+        else {
+            cout << "Artist not found." << endl;
+        }
+    }
+    catch (sql::SQLException e)
+    {
+        cout << "Could not connect to server. Error message: " << e.what() << endl;
+        system("pause");
+        exit(1);
+    }
+    return result;
 }
 
 //Searching up Artist's name to see information
@@ -170,12 +247,6 @@ vector<string> searchWorkInfoByID(const int& workId) {
         pstmt->setInt(1, workId);
         unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
         if (res->next()) {
-            /*
-            cout << "Name: " << res->getString("name") << endl;
-            cout << "Style: " << res->getString("style") << endl;
-            cout << "URL: " << res->getString("url") << endl;
-            cout << "Subject: " << res->getString("subject") << endl; //If Subject is NULL, fix it!
-            */
             result.push_back(res->getString("name"));
             string style = string(res->getString("style")).empty() ? "NULL" : res->getString("style");
             result.push_back(style);
@@ -184,6 +255,115 @@ vector<string> searchWorkInfoByID(const int& workId) {
         }
         else {
             cout << "Work not found." << endl;
+        }
+    }
+    catch (sql::SQLException e)
+    {
+        cout << "Could not connect to server. Error message: " << e.what() << endl;
+        system("pause");
+        exit(1);
+    }
+    return result;
+}
+
+//----------------------Museum Queries-----------------------------
+//Searching up all Museum's ID
+vector<int> museumID() {
+    vector<int> result;
+    try {
+        sql::Driver* driver = get_driver_instance();
+        unique_ptr<sql::Connection> con(driver->connect(server, username, password));
+        con->setSchema("cs366project");
+
+        unique_ptr<sql::PreparedStatement> pstmt(con->prepareStatement("SELECT museum_id FROM Museum"));
+        unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
+        while (res->next()) {
+            result.push_back(res->getInt("museum_id"));
+        }
+    }
+    catch (sql::SQLException e)
+    {
+        cout << "Could not connect to server. Error message: " << e.what() << endl;
+        system("pause");
+        exit(1);
+    }
+    return result;
+}
+
+//Searching up Museum's ID to find Museum's information
+vector<string> searchMuseumInfoByID(const int& museumId) {
+    vector<string> result;
+    try {
+        sql::Driver* driver = get_driver_instance();
+        unique_ptr<sql::Connection> con(driver->connect(server, username, password));
+        con->setSchema("cs366project");
+
+        unique_ptr<sql::PreparedStatement> pstmt(con->prepareStatement("CALL getMuseumInfoByID(?)"));
+        pstmt->setInt(1, museumId);
+        unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
+        if (res->next()) {
+            result.push_back(res->getString("name"));
+            result.push_back(res->getString("phone"));
+            result.push_back(res->getString("url"));
+        }
+        else {
+            cout << "Museum not found." << endl;
+        }
+    }
+    catch (sql::SQLException e)
+    {
+        cout << "Could not connect to server. Error message: " << e.what() << endl;
+        system("pause");
+        exit(1);
+    }
+    return result;
+}
+
+//Searching up Museum's name to find Museum's information
+vector<string> searchMuseumInfoByName(const string& museumName) {
+    vector<string> result;
+    try {
+        sql::Driver* driver = get_driver_instance();
+        unique_ptr<sql::Connection> con(driver->connect(server, username, password));
+        con->setSchema("cs366project");
+
+        unique_ptr<sql::PreparedStatement> pstmt(con->prepareStatement("CALL getMuseumInfoByName(?)"));
+        pstmt->setString(1, museumName);
+        unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
+        if (res->next()) {
+            result.push_back(res->getString("name"));
+            result.push_back(res->getString("phone"));
+            result.push_back(res->getString("url"));
+        }
+        else {
+            cout << "Museum not found." << endl;
+        }
+    }
+    catch (sql::SQLException e)
+    {
+        cout << "Could not connect to server. Error message: " << e.what() << endl;
+        system("pause");
+        exit(1);
+    }
+    return result;
+}
+
+//---------------------Museum Hours Queries (aka, related to Museum)-----------------------------
+//Searching up Museum's name to find Museum's hours
+vector<string> searchMuseumDaysAndHoursByName(const string& museumName) {
+    vector<string> result;
+    try {
+        sql::Driver* driver = get_driver_instance();
+        unique_ptr<sql::Connection> con(driver->connect(server, username, password));
+        con->setSchema("cs366project");
+
+        unique_ptr<sql::PreparedStatement> pstmt(con->prepareStatement("CALL getMuseumDaysAndHours(?)"));
+        pstmt->setString(1, museumName);
+        unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
+        while (res->next()) {
+            result.push_back(res->getString("day"));
+            result.push_back(res->getString("open"));
+            result.push_back(res->getString("close"));
         }
     }
     catch (sql::SQLException e)
@@ -281,6 +461,10 @@ vector<string> searchMuseumWork(const string& museumName) {
 int main()
 {
     /*
+    vector<int> artistIDList = artistID();
+    */
+
+    /*
     string artistName;
     getline(cin, artistName);
     vector<string> artistByName = searchArtistByName(artistName);
@@ -298,6 +482,17 @@ int main()
     vector<string> artistInfo = searchArtistByID(artistID);
     */
     
+    /*
+    string artistName;
+    getline(cin, artistName);
+    vector<string> findArtistStyle = searchArtistStyle(artistName);
+    */
+
+    /*
+    string artistName;
+    getline(cin, artistName);
+    vector<string> findArtistLifetime = searchArtistBirthAndDeath(artistName);
+    */
 
     /*
     auto artistNameAndNationality = artistNationalityList();
@@ -311,6 +506,31 @@ int main()
     int workID;
     cin >> workID;
     vector<string> workInfo = searchWorkInfoByID(workID);
+    */
+
+    /*
+    vector<int> museumIDList = museumID();
+    */
+
+    /*
+    int museumID;
+    cin >> museumID;
+    vector<string> museumIDInfo = searchMuseumInfoByID(museumID);
+    */
+
+    /*
+    string museumName;
+    getline(cin, museumName);
+    vector<string> museumNameInfo = searchMuseumInfoByName(museumName);
+    */
+
+    /*
+    string museumName;
+    getline(cin, museumName);
+    vector<string> museumDayAndHour = searchMuseumDaysAndHoursByName(museumName);
+    for (size_t i = 0; i + 2 < museumDayAndHour.size(); i += 3) {
+        cout << museumDayAndHour[i] << ": " << museumDayAndHour[i + 1] << " - " << museumDayAndHour[i + 2] << endl;
+    }
     */
 
     /*
