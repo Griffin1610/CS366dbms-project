@@ -10,7 +10,7 @@ using namespace std;
 
 const string server = "tcp://127.0.0.1:3307";
 const string username = "root";
-const string password = "J@p3n3se$tudies";
+const string password = "";
 
 //--------------------Artist Queries-------------------------
 //Searching up all Artist's ID
@@ -734,6 +734,76 @@ vector<string> searchArtistMuseumIDToFindWorks(const int& artistName, const int&
     return result;
 }
 
+//--------------------------Others----------------------------
+//Total count of Artist
+vector<string> totalArtist() {
+    vector<string> result;
+    try {
+        sql::Driver* driver = get_driver_instance();
+        unique_ptr<sql::Connection> con(driver->connect(server, username, password));
+        con->setSchema("cs366project");
+
+        unique_ptr<sql::PreparedStatement> pstmt(con->prepareStatement("SELECT COUNT(*) FROM Artist"));
+        unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
+        if (res->next()) {
+            result.push_back(res->getString(1));
+        }
+    }
+    catch (sql::SQLException e)
+    {
+        cout << "Could not connect to server. Error message: " << e.what() << endl;
+        system("pause");
+        exit(1);
+    }
+    return result;
+}
+
+//Total count of Work
+vector<string> totalWork() {
+    vector<string> result;
+    try {
+        sql::Driver* driver = get_driver_instance();
+        unique_ptr<sql::Connection> con(driver->connect(server, username, password));
+        con->setSchema("cs366project");
+
+        unique_ptr<sql::PreparedStatement> pstmt(con->prepareStatement("SELECT COUNT(*) FROM Work"));
+        unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
+        if (res->next()) {
+            result.push_back(res->getString(1));
+        }
+    }
+    catch (sql::SQLException e)
+    {
+        cout << "Could not connect to server. Error message: " << e.what() << endl;
+        system("pause");
+        exit(1);
+    }
+    return result;
+}
+
+//Total count of Museum
+vector<string> totalMuseum() {
+    vector<string> result;
+    try {
+        sql::Driver* driver = get_driver_instance();
+        unique_ptr<sql::Connection> con(driver->connect(server, username, password));
+        con->setSchema("cs366project");
+
+        unique_ptr<sql::PreparedStatement> pstmt(con->prepareStatement("SELECT COUNT(*) FROM Museum"));
+        unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
+        if (res->next()) {
+            result.push_back(res->getString(1));
+        }
+    }
+    catch (sql::SQLException e)
+    {
+        cout << "Could not connect to server. Error message: " << e.what() << endl;
+        system("pause");
+        exit(1);
+    }
+    return result;
+}
+
 
 int main()
 {
@@ -881,6 +951,10 @@ int main()
     cin >> museumName;
     vector<string> findWorksByIDs = searchArtistMuseumIDToFindWorks(artistName, museumName);
     */
+
+    //vector<string> totalArtists = totalArtist();
+    //vector<string> totalWorks = totalWork();
+    //vector<string> totalMuseums = totalMuseum();
     
     return 0;
 }
