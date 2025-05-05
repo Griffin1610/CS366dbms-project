@@ -105,6 +105,19 @@ delimiter ;
 ------------------------------------------------------------------
 
 delimiter $$
+drop procedure if exists getAddressInfoByID;
+create procedure getAddressInfoByID(
+	IN addressIdSearch VARCHAR(255))
+begin
+	SELECT country, state, city, address_id
+	FROM Address
+	WHERE address_id LIKE addressIdSearch;
+end $$
+delimiter ;
+
+------------------------------------------------------------------
+
+delimiter $$
 drop procedure if exists getArtistWork;
 create procedure getArtistWork(
 	IN searchingArtist VARCHAR(255))
@@ -141,5 +154,112 @@ begin
 	FROM Work w
 	JOIN Museum m ON m.museum_id = w.museum_id
 	WHERE m.name LIKE searchingMuseum;
+end $$
+delimiter ;
+
+-----------------------------------------------------------------
+
+delimiter $$
+drop procedure if exists getMuseumAddress;
+create procedure getMuseumAddress(
+	IN searchingMuseum VARCHAR(255))
+begin
+	SELECT m.name, a.country, a.state, a.city
+	FROM Address a
+	JOIN Museum m ON a.address_id = m.address_id
+	WHERE m.name LIKE searchingMuseum;
+end $$
+delimiter ;
+
+-----------------------------------------------------------------
+**Notes: I called my table ProductSpecs instead of product_specs so it might be different between our works
+
+delimiter $$
+drop procedure if exists getWorkPrice;
+create procedure getWorkPrice(
+	IN searchingWork VARCHAR(255))
+begin
+	SELECT w.name, p.sale_price, p.regular_price
+	FROM ProductSpecs p
+	JOIN Work w ON p.work_id = w.work_id
+	WHERE w.name LIKE searchingWork;
+end $$
+delimiter ;
+
+-----------------------------------------------------------------
+**Notes: I called my table CanvasSize instead of canvas_size so it might be different between our works
+
+delimiter $$
+drop procedure if exists getWorkSize;
+create procedure getWorkSize(
+	IN searchingWork VARCHAR(255))
+begin
+	SELECT w.name, cs.width, cs.height
+	FROM Work w
+	JOIN CanvasSize cs ON w.size_id = cs.size_id
+	WHERE w.name LIKE searchingWork;
+end $$
+delimiter ;
+
+-----------------------------------------------------------------
+**Notes: I called my table ProductSpecs instead of product_specs so it might be different between our works
+
+delimiter $$
+drop procedure if exists getArtistWorkPrice;
+create procedure getArtistWorkPrice(
+	IN searchingArtist VARCHAR(255))
+begin
+	SELECT a.full_name, w.name, ps.sale_price, ps.regular_price
+	FROM Artist a
+	JOIN Work w ON a.artist_id = w.artist_id
+	JOIN ProductSpecs ps ON w.work_id = ps.work_id
+	WHERE a.full_name LIKE searchingArtist;
+end $$
+delimiter ;
+
+-----------------------------------------------------------------
+
+delimiter $$
+drop procedure if exists getArtistInMuseum;
+create procedure getArtistInMuseum(
+	IN searchingMuseum VARCHAR(255))
+begin
+	SELECT DISTINCT a.full_name
+	FROM Artist a
+	JOIN Work w ON a.artist_id = w.artist_id
+	JOIN Museum m ON w.museum_id = m.museum_id
+	WHERE m.name LIKE searchingMuseum;
+end $$
+delimiter ;
+
+-----------------------------------------------------------------
+
+delimiter $$
+drop procedure if exists getWorkFromArtistMuseumName;
+create procedure getWorkFromArtistMuseumName(
+	IN searchingArtist VARCHAR(255),
+	IN searchingMuseum VARCHAR(255))
+begin
+	SELECT w.name
+	FROM Work w
+	JOIN Artist a ON w.artist_id = a.artist_id
+	JOIN Museum m ON w.museum_id = m.museum_id
+	WHERE a.full_name LIKE searchingArtist
+	AND m.name LIKE searchingMuseum;
+end $$
+delimiter ;
+
+-----------------------------------------------------------------
+
+delimiter $$
+drop procedure if exists getWorkFromArtistMuseumID;
+create procedure getWorkFromArtistMuseumID(
+	IN searchingArtist INT,
+	IN searchingMuseum INT)
+begin
+	SELECT name
+	FROM Work
+	WHERE artist_id LIKE searchingArtist
+	AND museum_id LIKE searchingMuseum;
 end $$
 delimiter ;
