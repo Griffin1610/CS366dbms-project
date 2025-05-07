@@ -14,6 +14,7 @@ const string password = "";
 
 //--------------------Artist Queries-------------------------
 //Searching up all Artist's ID
+/*
 vector<int> artistID() {
     vector<int> result;
     try {
@@ -35,6 +36,7 @@ vector<int> artistID() {
     }
     return result;
 }
+*/
 
 //Searching up all Artist's name
 vector<string> artistNameList() {
@@ -172,6 +174,7 @@ vector<string> searchArtistByName(const string& artistName) {
     return result;
 }
 
+/*
 //Searching up Artist's ID to see information
 vector<string> searchArtistByID(const int& artistId) {
     vector<string> result;
@@ -202,9 +205,11 @@ vector<string> searchArtistByID(const int& artistId) {
         exit(1);
     }
 }
+*/
 
 //---------------------Work Queries--------------------------------
 //Searching up all Work ID's
+/*
 vector<int> workIDList() {
     vector<int> result;
     try {
@@ -226,8 +231,11 @@ vector<int> workIDList() {
     }
     return result;
 }
+*/
+
 
 //Searching up Work's ID to find Work's information
+//Saving for Work of the Day?
 vector<string> searchWorkInfoByID(const int& workId) {
     vector<string> result;
     try {
@@ -242,7 +250,8 @@ vector<string> searchWorkInfoByID(const int& workId) {
             result.push_back(res->getString("name"));
             string style = string(res->getString("style")).empty() ? "NULL" : res->getString("style");
             result.push_back(style);
-            result.push_back(res->getString("url"));
+            string url = string(res->getString("url")).empty() ? "NULL" : res->getString("url");
+            result.push_back(url);
             string subject = string(res->getString("subject")).empty() ? "NULL" : res->getString("subject");
             result.push_back(subject);
         }
@@ -259,8 +268,10 @@ vector<string> searchWorkInfoByID(const int& workId) {
     return result;
 }
 
+
 //----------------------Museum Queries-----------------------------
 //Searching up all Museum's ID
+/*
 vector<int> museumID() {
     vector<int> result;
     try {
@@ -282,8 +293,10 @@ vector<int> museumID() {
     }
     return result;
 }
+*/
 
 //Searching up Museum's ID to find Museum's information
+/*
 vector<string> searchMuseumInfoByID(const int& museumId) {
     vector<string> result;
     try {
@@ -311,6 +324,7 @@ vector<string> searchMuseumInfoByID(const int& museumId) {
     }
     return result;
 }
+*/
 
 //Searching up Museum's name to find Museum's information
 vector<string> searchMuseumInfoByName(const string& museumName) {
@@ -428,6 +442,7 @@ vector<string> searchAddressInfoByID(const string& addressId) {
 
 //-----------------------Canvas Size Queries-------------------------------
 //Searching up all Canvas Size IDs
+
 vector<int> canvasSizeID() {
     vector<int> result;
     try {
@@ -449,6 +464,7 @@ vector<int> canvasSizeID() {
     }
     return result;
 }
+
 
 //---------------------Multiple Queries----------------------------
 //Searching up Artist's name to find artist's works
@@ -694,7 +710,7 @@ vector<string> searchArtistMuseumNameToFindWorks(const string& artistName, const
             result.push_back(res->getString("name"));
         }
         if (result.empty()) {
-            cout << "Artist's name or museum's name is not found." << endl;
+            cout << "No work found." << endl;
         }
     }
     catch (sql::SQLException e)
@@ -707,6 +723,7 @@ vector<string> searchArtistMuseumNameToFindWorks(const string& artistName, const
 }
 
 //Searching up Artist's ID and Museum's ID to find Work's name
+/*
 vector<string> searchArtistMuseumIDToFindWorks(const int& artistName, const int& museumName) {
     vector<string> result;
     try {
@@ -733,6 +750,7 @@ vector<string> searchArtistMuseumIDToFindWorks(const int& artistName, const int&
     }
     return result;
 }
+*/
 
 //--------------------------Others----------------------------
 //Total count of Artist
@@ -807,154 +825,201 @@ vector<string> totalMuseum() {
 
 int main()
 {
-    /*
-    vector<int> artistIDList = artistID();
-    */
+    //Artist Name: Alexandre Cabanel
+    //Artist ID: 500
+    //Work Name: Horses at the Porch
+    //Work ID: 160228
+    //Museum ID: 31
+    //Museum Name: The State Hermitage Museum
+    //Address ID: 12 Ulitsa Volkhonka
+    
 
-    /*
+    
     string artistName;
+    cout << "Artist name: ";
     getline(cin, artistName);
     vector<string> artistByName = searchArtistByName(artistName);
-    */
+    if (!artistByName.empty()) {
+        cout << "Name: " << artistByName[0] << endl << "Nationality: " << artistByName[1] << endl << "Style: " << artistByName[2] << endl << "Birth: " << artistByName[3] << endl << "Death: " << artistByName[4] << endl;
+    }
 
-    /*
-    string artistName;
+    
+    //string artistName;
+    cout << "Artist name: ";
     getline(cin, artistName);
     vector<string> findWorks = searchArtistWork(artistName);
-    */
-
-    /*
-    int artistID;
-    cin >> artistID;
-    vector<string> artistInfo = searchArtistByID(artistID);
-    */
+    for (string work : findWorks) {
+        cout << "Work: " << work << endl;
+    }
     
-    /*
-    string artistName;
+
+    
+    
+    //string artistName;
+    cout << "Artist name: ";
     getline(cin, artistName);
     vector<string> findArtistStyle = searchArtistStyle(artistName);
-    */
+    if (!findArtistStyle.empty()) {
+        cout << "Name: " << findArtistStyle[0] << endl << "Style: " << findArtistStyle[1] << endl;
+    }
+    
 
-    /*
-    string artistName;
+    
+    //string artistName;
+    cout << "Artist name: ";
     getline(cin, artistName);
     vector<string> findArtistLifetime = searchArtistBirthAndDeath(artistName);
-    */
+    if (!findArtistLifetime.empty()) {
+        cout << "Name: " << findArtistLifetime[0] << endl << "Birth: " << findArtistLifetime[1] << endl << "Death: " << findArtistLifetime[2] << endl;
+    }
+    
 
-    /*
+    
     auto artistNameAndNationality = artistNationalityList();
     for (const auto& info : artistNameAndNationality) {
         cout << "Artist: " << info.first;
         cout << ", Nationality: " << info.second << endl;
     }
-    */
+    
 
-    /*
+    
     int workID;
+    cout << "Work ID: ";
     cin >> workID;
+    cin.ignore();
     vector<string> workInfo = searchWorkInfoByID(workID);
-    */
+    if (!workInfo.empty()) {
+        cout << "Name: " << workInfo[0] << endl << "Style: " << workInfo[1] << endl << "URL: " << workInfo[2] << endl << "Subject: " << workInfo[3] << endl;
+    }
+    
 
-    /*
-    vector<int> museumIDList = museumID();
-    */
-
-    /*
-    int museumID;
-    cin >> museumID;
-    vector<string> museumIDInfo = searchMuseumInfoByID(museumID);
-    */
-
-    /*
+    
     string museumName;
+    cout << "Museum name: ";
     getline(cin, museumName);
     vector<string> museumNameInfo = searchMuseumInfoByName(museumName);
-    */
+    if (!museumNameInfo.empty()) {
+        cout << "Name: " << museumNameInfo[0] << endl << "Phone: " << museumNameInfo[1] << endl << "URL: " << museumNameInfo[2] << endl;
+    }
 
-    /*
-    string museumName;
+    
+    //string museumName;
+    cout << "Museum name: ";
     getline(cin, museumName);
     vector<string> museumDayAndHour = searchMuseumDaysAndHoursByName(museumName);
     for (size_t i = 0; i + 2 < museumDayAndHour.size(); i += 3) {
         cout << museumDayAndHour[i] << ": " << museumDayAndHour[i + 1] << " - " << museumDayAndHour[i + 2] << endl;
     }
-    */
+    
 
-    /*
+    
     vector<string> addressInfo = searchAddressInfo();
-    */
 
-    /*
+
+    
     string addressId;
+    cout << "Address: ";
     getline(cin, addressId);
     vector<string> addressInfoById = searchAddressInfoByID(addressId);
-    */
+    if (!addressInfoById.empty()) {
+        cout << "Country: " << addressInfoById[0] << endl << "State: " << addressInfoById[1] << endl << "City: " << addressInfoById[2] << endl << addressInfoById[3] << endl;
+    }
+    
 
-    /*
+    
     vector<int> sizeId = canvasSizeID();
-    */
+    
 
-    /*
+    
     string workName;
+    cout << "Work name: ";
     getline(cin, workName);
     vector<string> findMuseums = searchWorkInMuseum(workName);
-    */
+    for (string museum : findMuseums) {
+        cout << "Museum: " << museum << endl;
+    }
+    
 
-    /*
-    string workName;
+    
+    //string workName;
+    cout << "Work name: ";
     getline(cin, workName);
     vector<string> workSize = searchWorkSize(workName);
-    */
+    if (!workSize.empty()) {
+        cout << "Name: " << workSize[0] << endl << "Width: " << workSize[1] << endl << "Height: " << workSize[2] << endl;
+    }
     
-    /*
-    string museumName;
+    
+    
+    
+    //string museumName;
+    cout << "Museum name: ";
     getline(cin, museumName);
-    vector<string> findWorks = searchMuseumWork(museumName);
-    */
+    vector<string> findMuseumWorks = searchMuseumWork(museumName);
+    for (string work : findMuseumWorks) {
+        cout << "Work: " << work << endl;
+    }
+    
 
-    /*
-    string museumName;
+    
+    //string museumName;
+    cout << "Museum name: ";
     getline(cin, museumName);
     vector<string> findMuseumAddress = searchMuseumAddress(museumName);
-    */
+    if (!findMuseumAddress.empty()) {
+        cout << "Name: " << findMuseumAddress[0] << endl << "Country: " << findMuseumAddress[1] << endl << "State: " << findMuseumAddress[2] << endl << "City: " << findMuseumAddress[3] << endl;
+    }
     
-    /*
-    string workName;
+    
+    
+    //string workName;
+    cout << "Work name: ";
     getline(cin, workName);
     vector<string> findWorkPrice = searchWorkPrice(workName);
-    */
+    if (!findWorkPrice.empty()) {
+        cout << "Name: " << findWorkPrice[0] << endl << "Sale Price: $" << findWorkPrice[1] << endl << "Regular Price: $" << findWorkPrice[2] << endl;
+    }
+    
 
-    /*
-    string artistName;
+    //string artistName;
+    cout << "Artist name: ";
     getline(cin, artistName);
-    vector<string> findWorkPrice = searchArtistWorkPrice(artistName);
-    */
+    vector<string> findArtistWorkPrice = searchArtistWorkPrice(artistName);
+    for (size_t i = 0; i + 2 < findArtistWorkPrice.size(); i += 3) {
+        cout << "Work Name: " << findArtistWorkPrice[i] << endl;
+        cout << "Sale Price: " << findArtistWorkPrice[i + 1] << endl;
+        cout << "Regular Price: " << findArtistWorkPrice[i + 2] << endl;
+    }
+    
 
-    /*
-    string museumName;
+    //string museumName;
+    cout << "Museum name: ";
     getline(cin, museumName);
     vector<string> findArtistInMuseum = searchMuseumArtist(museumName);
-    */
+    for (string artist : findArtistInMuseum) {
+        cout << "Artist: " << artist << endl;
+    }
     
-    /*
-    string artistName;
-    string museumName;
+    
+    //string artistName;
+    //string museumName;
+    cout << "Artist name: ";
     getline(cin, artistName);
+    cout << "Museum name: ";
     getline(cin, museumName);
     vector<string> findWorksByArtistAndMuseum = searchArtistMuseumNameToFindWorks(artistName, museumName);
-    */
+    for (string work : findWorksByArtistAndMuseum) {
+        cout << "Work: " << work << endl;
+    }
+    
 
-    /*
-    int artistName;
-    int museumName;
-    cin >> artistName;
-    cin >> museumName;
-    vector<string> findWorksByIDs = searchArtistMuseumIDToFindWorks(artistName, museumName);
-    */
 
-    //vector<string> totalArtists = totalArtist();
-    //vector<string> totalWorks = totalWork();
-    //vector<string> totalMuseums = totalMuseum();
+    vector<string> totalArtists = totalArtist();
+    cout << "Total Artists: " << totalArtists[0] << endl;
+    vector<string> totalWorks = totalWork();
+    cout << "Total Works: " << totalWorks[0] << endl;
+    vector<string> totalMuseums = totalMuseum();
+    cout << "Total Museums: " << totalMuseums[0] << endl;
     
     return 0;
 }
