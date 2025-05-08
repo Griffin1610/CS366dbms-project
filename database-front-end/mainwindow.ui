@@ -30,10 +30,7 @@
      </sizepolicy>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Shape::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Shadow::Raised</enum>
+     <enum>QFrame::NoFrame</enum>
     </property>
     <widget class="QPushButton" name="worksButton">
      <property name="geometry">
@@ -88,59 +85,6 @@
      </property>
     </widget>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
-    <property name="geometry">
-     <rect>
-      <x>642</x>
-      <y>80</y>
-      <width>341</width>
-      <height>24</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="categoryBox">
-    <property name="geometry">
-     <rect>
-      <x>520</x>
-      <y>80</y>
-      <width>101</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <item>
-     <property name="text">
-      <string>Work</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Artist</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Museum</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Style</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QPushButton" name="searchButton">
-    <property name="geometry">
-     <rect>
-      <x>1000</x>
-      <y>80</y>
-      <width>80</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Search</string>
-    </property>
-   </widget>
    <widget class="QWidget" name="wotd" native="true">
     <property name="geometry">
      <rect>
@@ -159,14 +103,8 @@
        <height>20</height>
       </rect>
      </property>
-     <property name="frameShadow">
-      <enum>QFrame::Shadow::Plain</enum>
-     </property>
      <property name="text">
       <string>Work of the day</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignmentFlag::AlignCenter</set>
      </property>
     </widget>
    </widget>
@@ -188,14 +126,8 @@
        <height>20</height>
       </rect>
      </property>
-     <property name="frameShadow">
-      <enum>QFrame::Shadow::Plain</enum>
-     </property>
      <property name="text">
       <string>Statistics</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignmentFlag::AlignCenter</set>
      </property>
     </widget>
    </widget>
