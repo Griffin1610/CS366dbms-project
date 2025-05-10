@@ -8,7 +8,7 @@ namespace Ui {
 class WorksWindow;
 }
 
-class WorksWindow : public QDialog
+class WorksWindow : public QWidget
 {
     Q_OBJECT
 

@@ -2,7 +2,7 @@
 #include "ui_artistwindow.h"
 
 ArtistWindow::ArtistWindow(QWidget *parent)
-    : QDialog(parent)
+    : QWidget(parent)
     , ui(new Ui::ArtistWindow)
 {
     ui->setupUi(this);

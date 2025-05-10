@@ -1,11 +1,14 @@
 #include "museumwindow.h"
 #include "ui_museumwindow.h"
+#include <QWidget>
 
 MuseumWindow::MuseumWindow(QWidget *parent)
-    : QDialog(parent)
+    : QWidget(parent)
     , ui(new Ui::MuseumWindow)
 {
     ui->setupUi(this);
+
+    this->setStyleSheet("background-color: lightblue;");
 }
 
 MuseumWindow::~MuseumWindow()

@@ -1,14 +1,15 @@
 #ifndef MUSEUMWINDOW_H
 #define MUSEUMWINDOW_H
 
-#include <QDialog>
 #include <vector>
 #include <string>
+#include <QWidget>
+
 namespace Ui {
 class MuseumWindow;
 }
 
-class MuseumWindow : public QDialog
+class MuseumWindow : public QWidget
 {
     Q_OBJECT
 

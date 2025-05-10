@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>ArtistWindow</class>
+ <widget class="QWidget" name="ArtistWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,9 +11,17 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>ArtistWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
+  <widget class="QWidget" name="centralwidget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1100</width>
+     <height>798</height>
+    </rect>
+   </property>
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
@@ -30,7 +38,7 @@
      </sizepolicy>
     </property>
     <property name="frameShape">
-     <enum>QFrame::NoFrame</enum>
+     <enum>QFrame::Shape::NoFrame</enum>
     </property>
     <widget class="QPushButton" name="worksButton">
      <property name="geometry">
@@ -88,7 +96,7 @@
    <widget class="QLineEdit" name="lineEdit">
     <property name="geometry">
      <rect>
-      <x>630</x>
+      <x>610</x>
       <y>30</y>
       <width>351</width>
       <height>26</height>
@@ -98,7 +106,7 @@
    <widget class="QPushButton" name="artistInfoButton">
     <property name="geometry">
      <rect>
-      <x>720</x>
+      <x>700</x>
       <y>190</y>
       <width>151</width>
       <height>26</height>
@@ -111,7 +119,7 @@
    <widget class="QPushButton" name="artistsNationalitiesButton">
     <property name="geometry">
      <rect>
-      <x>960</x>
+      <x>930</x>
       <y>190</y>
       <width>151</width>
       <height>26</height>
@@ -135,7 +143,16 @@
     </property>
    </widget>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>3</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

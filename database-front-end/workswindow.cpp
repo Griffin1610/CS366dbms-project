@@ -1,8 +1,9 @@
 #include "workswindow.h"
 #include "ui_workswindow.h"
+#include <QWidget>
 
 WorksWindow::WorksWindow(QWidget *parent)
-    : QDialog(parent)
+    : QWidget(parent)
     , ui(new Ui::WorksWindow)
 {
     ui->setupUi(this);

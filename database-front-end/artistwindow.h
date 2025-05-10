@@ -9,12 +9,13 @@ namespace Ui {
 class ArtistWindow;
 }
 
-class ArtistWindow : public QDialog
+
+class ArtistWindow : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit ArtistWindow(QWidget *parent = nullptr);
+    ArtistWindow(QWidget *parent = nullptr);
     ~ArtistWindow();
 
 private:

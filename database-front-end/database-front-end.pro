@@ -10,7 +10,8 @@ CONFIG += c++17
 
 SOURCES += \
     artistwindow.cpp \
-    main.cpp \
+    homewindow.cpp \
+    mainapp.cpp \
     mainwindow.cpp \
     museumwindow.cpp \
     stylewindow.cpp \
@@ -18,6 +19,7 @@ SOURCES += \
 
 HEADERS += \
     artistwindow.h \
+    homewindow.h \
     mainwindow.h \
     museumwindow.h \
     stylewindow.h \
@@ -25,6 +27,7 @@ HEADERS += \
 
 FORMS += \
     artistwindow.ui \
+    homewindow.ui \
     mainwindow.ui \
     museumwindow.ui \
     stylewindow.ui \
@@ -34,3 +37,13 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+# MySQL/C++ Connector 2
+
+
+# MySQL/C++ Connector
+INCLUDEPATH += C:/mysql_conn/mysql-connector-c++-9.3.0-winx64/include
+INCLUDEPATH += C:/mysql_conn/mysql-connector-c++-9.3.0-winx64/include/jdbc
+
+LIBS += -LC:/mysql_conn/mysql-connector-c++-9.3.0-winx64/lib64/vs14 -lmysqlcppconn
+QMAKE_LFLAGS += -L"C:/mysql_conn/mysql-connector-c++-9.3.0-winx64/lib64"
