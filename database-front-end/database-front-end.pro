@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     artistwindow.cpp \
+    backend.cpp \
     homewindow.cpp \
     mainapp.cpp \
     mainwindow.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
 
 HEADERS += \
     artistwindow.h \
+    backend.h \
     homewindow.h \
     mainwindow.h \
     museumwindow.h \
@@ -39,7 +41,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 # MySQL/C++ Connector 2
-
+QT += sql
 
 # MySQL/C++ Connector
 INCLUDEPATH += C:/mysql_conn/mysql-connector-c++-9.3.0-winx64/include

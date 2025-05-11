@@ -82,7 +82,7 @@
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>250</x>
+      <x>280</x>
       <y>0</y>
       <width>1116</width>
       <height>768</height>
@@ -169,6 +169,55 @@
        <string>Artists' Nationalities</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="workInMuseumButton">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>270</y>
+        <width>151</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Museums w/ this Painting</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="paintingSizeInfoButton">
+      <property name="geometry">
+       <rect>
+        <x>450</x>
+        <y>270</y>
+        <width>151</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Painting Size Information</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="paintingPriceButton">
+      <property name="geometry">
+       <rect>
+        <x>680</x>
+        <y>270</y>
+        <width>151</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Painting Price Information</string>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="workTableWidget">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>400</y>
+        <width>256</width>
+        <height>192</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="artistsPage">
      <widget class="QLineEdit" name="artistPageInput">
@@ -220,6 +269,55 @@
        <string>Artists' Nationalities</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="allArtistsWorksButton">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>280</y>
+        <width>151</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>All Works by This Artist</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="artistStylesButton">
+      <property name="geometry">
+       <rect>
+        <x>450</x>
+        <y>280</y>
+        <width>151</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Artist's Styles</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="artistWorkPricesButton">
+      <property name="geometry">
+       <rect>
+        <x>680</x>
+        <y>280</y>
+        <width>151</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Prices of this Artist's Work</string>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="tableWidget">
+      <property name="geometry">
+       <rect>
+        <x>215</x>
+        <y>410</y>
+        <width>621</width>
+        <height>192</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="museumsPage">
      <widget class="QLineEdit" name="museumsPageInput">
@@ -269,6 +367,68 @@
       </property>
       <property name="text">
        <string>Artists in a Museum</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="worksInMuseumButton">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>270</y>
+        <width>151</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Works in a Museum</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="addressInfoButton">
+      <property name="geometry">
+       <rect>
+        <x>450</x>
+        <y>270</y>
+        <width>151</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>All Addresses</string>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="museumTableWidget">
+      <property name="geometry">
+       <rect>
+        <x>225</x>
+        <y>460</y>
+        <width>581</width>
+        <height>192</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="museumDaysAndHoursButton">
+      <property name="geometry">
+       <rect>
+        <x>680</x>
+        <y>270</y>
+        <width>151</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Museum Days/Times</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="museumAddressButton">
+      <property name="geometry">
+       <rect>
+        <x>450</x>
+        <y>350</y>
+        <width>151</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Museum Address</string>
       </property>
      </widget>
     </widget>

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QSqlDatabase>
 
 #include "artistwindow.h"
 #include "workswindow.h"
@@ -55,8 +56,28 @@ private slots:
 
     void on_workInfoButton_clicked();
 
+    void on_allArtistsWorksButton_clicked();
+
+    void on_artistStylesButton_clicked();
+
+    void on_paintingPriceButton_clicked();
+
+    void on_artistWorkPricesButton_clicked();
+
+    void on_museumDaysAndHoursButton_clicked();
+
+    void on_addressInfoButton_clicked();
+
+    void on_worksInMuseumButton_clicked();
+
+    void on_museumAddressButton_clicked();
+
+    void on_workInMuseumButton_clicked();
+
 private:
     Ui::MainWindow *ui;
+
+    QSqlDatabase connectToDatabase();
 
     HomeWindow *homeWindow;
     ArtistWindow *artistWindow;
