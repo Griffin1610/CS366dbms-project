@@ -4,8 +4,8 @@
 //#include "artistwindow.h"
 //#include "museumwindow.h"
 //#include "ui_homewindow.h"
-#include "homewindow.h"
 #include <backend.h>
+#include <mainwindow.h>
 
 #include <QWidget>
 #include <QDebug>
@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     // Windows
+    /*
     homeWindow = new HomeWindow(this);
     artistWindow = new ArtistWindow(this);
     worksWindow = new WorksWindow(this);
@@ -31,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->stackedWidget->addWidget(artistWindow);
 
     ui->stackedWidget->setCurrentWidget(homeWindow);
+*/
 
     bool connected;
     connected = connect(ui->homeButton, &QPushButton::clicked, this, &MainWindow::on_homeButton_clicked);
@@ -47,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     qDebug() << "Buttons connected.";
 
-    connect(ui->listAllWorksButton, &QPushButton::clicked, this, &MainWindow::on_listAllWorksButton_clicked);
+    //connect(ui->listAllWorksButton, &QPushButton::clicked, this, &MainWindow::on_listAllWorksButton_clicked);
     connect(ui->listAllArtistsButton, &QPushButton::clicked, this, &MainWindow::on_listAllArtistsButton_clicked);
     // Appearances
 
@@ -56,6 +58,7 @@ MainWindow::MainWindow(QWidget *parent)
         "QFrame { border: 2px solid #688cca; background-color: #a7b2e6; }"
         //"QWidget#wotd { border: 1px solid #688cca; background-color: #e7e2f3; }"
         //"QWidget#statistics { border: 1px solid #688cca; background-color: #e7e2f3; }"
+        "QTableWidget { background-color: #e7e2f3; color: black; }"
         "QLabel { border: none; color: white; }"
         "QPushButton { background-color: #e7e2f3; color: black }"
         );
@@ -65,10 +68,12 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    /*
     delete artistWindow;
     delete worksWindow;
     delete museumWindow;
     delete homeWindow;
+*/
 }
 
 // --- SIDEBAR BUTTONS ---
@@ -144,12 +149,17 @@ void MainWindow::on_listAllArtistsButton_clicked()
     Backend backend;
     vector<string> artists = backend.artistNameList();
 
-    QString artistList;
-    for (const auto& artist : artists) {
-        artistList += QString::fromStdString(artist) + "\n";
-    }
+    ui->tableWidget->clear();
+    ui->tableWidget->setRowCount(0);
+    ui->tableWidget->setColumnCount(1);
+    ui->tableWidget->setHorizontalHeaderLabels(QStringList() << "Name");
 
-    QMessageBox::information(this, "Artist List", artistList);
+    ui->tableWidget->setColumnWidth(0,250);
+
+    for(int i = 0; i < artists.size(); i++) {
+        ui->tableWidget->insertRow(i);
+        ui->tableWidget->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(artists[i])));
+    }
 }
 
 // --- museumPage BUTTONS ---
@@ -226,24 +236,37 @@ void MainWindow::on_museumInfoButton_clicked()
 
 // --- workPage BUTTONS ---
 
-// Get all paintings
-void MainWindow::on_listAllWorksButton_clicked()
-{
-    Backend backend;
-    int total = backend.totalWork();
-
-    if (total >= 0) {
-        QMessageBox::information(this, "Total Works", "Total works in database: " + QString::number(total));
-    }
-    else {
-        QMessageBox::warning(this, "Error", "Failed to retrieve total works.");
-    }
-}
-
 // Get painting information
 void MainWindow::on_workInfoButton_clicked()
 {
+    Backend backend;
+    QString workName = ui->worksPageInput->text();
 
+    if(workName.isEmpty()) {
+        qDebug() << "Work name is empty.";
+        return;
+    }
+
+    string name = workName.toStdString();
+
+    vector<string> workInfo = backend.searchWorkInfo(name);
+
+    ui->workTableWidget->clear();
+    ui->workTableWidget->setRowCount(0);
+    ui->workTableWidget->setColumnCount(4);
+    ui->workTableWidget->setHorizontalHeaderLabels(QStringList() << "Work Name" << "Style" << "URL" << "Subject");
+
+    if (!workInfo.empty()) {
+        int row = 0;
+        ui->workTableWidget->insertRow(row);
+        ui->workTableWidget->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(workInfo[0])));
+        ui->workTableWidget->setItem(row, 1, new QTableWidgetItem(QString::fromStdString(workInfo[1])));
+        ui->workTableWidget->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(workInfo[2])));
+        ui->workTableWidget->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(workInfo[3])));
+    }
+    else {
+        qDebug() << "No work found for the given name.";
+    }
 }
 
 
@@ -349,21 +372,18 @@ void MainWindow::on_artistWorkPricesButton_clicked()
     vector<string> workInfo = backend.searchArtistWorkPrice(name);
 
     ui->tableWidget->clear();
-    ui->tableWidget->setRowCount(workInfo.size());
-    ui->tableWidget->setColumnCount(3);
+    ui->tableWidget->setRowCount(0);
+    ui->tableWidget->setColumnCount(4);
 
-    ui->workTableWidget->setHorizontalHeaderLabels(QStringList() << "Work Name" << "Sale Price" << "Regular Price");
+    ui->workTableWidget->setHorizontalHeaderLabels(QStringList() << "Artist Name" << "Work Name" << "Sale Price" << "Regular Price");
 
-    if (!workInfo.empty()) {
-        int row = 0;
-        ui->workTableWidget->insertRow(row);
-        ui->workTableWidget->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(workInfo[0])));
-        ui->workTableWidget->setItem(row, 1, new QTableWidgetItem(QString::fromStdString(workInfo[1])));
-        ui->workTableWidget->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(workInfo[2])));
-    }
-
-    else {
-        qDebug() << "No work found for the given name.";
+    int totalRows = workInfo.size()/4;
+    for(int i = 0; i < totalRows; i++) {
+        ui->workTableWidget->insertRow(i);
+        ui->workTableWidget->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(workInfo[i*4+0])));
+        ui->workTableWidget->setItem(i, 1, new QTableWidgetItem(QString::fromStdString(workInfo[i*4+1])));
+        ui->workTableWidget->setItem(i, 2, new QTableWidgetItem(QString::fromStdString(workInfo[i*4+2])));
+        ui->workTableWidget->setItem(i, 3, new QTableWidgetItem(QString::fromStdString(workInfo[i*4+3])));
     }
 }
 
@@ -499,6 +519,52 @@ void MainWindow::on_workInMuseumButton_clicked()
             ui->workTableWidget->insertRow(i);
             ui->workTableWidget->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(museums[0])));
         }
+    }
+    else {
+        qDebug() << "No museum found for the given name.";
+    }
+}
+
+
+void MainWindow::on_statsButton_clicked()
+{
+
+    Backend backend;
+    vector<int> stats = backend.getTotals();
+
+    ui->statsList->clear();
+
+    if (!stats.empty() && stats[0] >= 0) {
+        ui->statsList->addItem("Total Works: " + QString::number(stats[0]));
+        ui->statsList->addItem("Total Artists: " + QString::number(stats[1]));
+        ui->statsList->addItem("Total Museums: " + QString::number(stats[2]));
+    }
+    else {
+        qDebug() << "Not found.";
+    }
+}
+
+
+void MainWindow::on_paintingSizeInfoButton_clicked()
+{
+    Backend backend;
+    QString name = ui->worksPageInput->text();
+    string workName = name.toStdString();
+
+    vector<string> workSize = backend.searchWorkSize(workName);
+
+    ui->workTableWidget->clear();
+    ui->workTableWidget->setRowCount(0);
+    ui->workTableWidget->setColumnCount(3);
+    ui->workTableWidget->setHorizontalHeaderLabels(QStringList() << "Name" << "Width" << "Height");
+
+    if(!workName.empty()) {
+        int row = 0;
+        ui->workTableWidget->insertRow(row);
+        ui->workTableWidget->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(workSize[0])));
+        ui->workTableWidget->setItem(row, 1, new QTableWidgetItem(QString::fromStdString(workSize[1])));
+        ui->workTableWidget->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(workSize[2])));
+
     }
     else {
         qDebug() << "No museum found for the given name.";

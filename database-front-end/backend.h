@@ -36,16 +36,13 @@ public:
     vector<string> searchMuseumArtist (const string& museumName); // done
 
     // Work functions
-    vector<string> searchWorkInfoByID(const int& workId);
-    vector<string> getAllWorks();
+    vector<string> searchWorkInfo(const string& workName);
     vector<string> searchWorkInMuseum(const string& workName); // done
     vector<string> searchWorkPrice(const string& workName); // done
     vector<string> searchWorkSize(const string& workSize);
 
     // Totals
-    int totalArtist();
-    int totalWork();
-    int totalMuseum();
+    vector<int> getTotals();
 
 private:
     QSqlDatabase db;

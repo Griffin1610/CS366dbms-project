@@ -9,31 +9,16 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    artistwindow.cpp \
     backend.cpp \
-    homewindow.cpp \
     mainapp.cpp \
-    mainwindow.cpp \
-    museumwindow.cpp \
-    stylewindow.cpp \
-    workswindow.cpp
+    mainwindow.cpp
 
 HEADERS += \
-    artistwindow.h \
     backend.h \
-    homewindow.h \
-    mainwindow.h \
-    museumwindow.h \
-    stylewindow.h \
-    workswindow.h
+    mainwindow.h
 
 FORMS += \
-    artistwindow.ui \
-    homewindow.ui \
-    mainwindow.ui \
-    museumwindow.ui \
-    stylewindow.ui \
-    workswindow.ui
+    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

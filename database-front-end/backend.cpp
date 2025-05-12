@@ -22,10 +22,10 @@ Backend::~Backend() {
 }
 
 // Total queries
-int Backend::totalWork() {
-    int count = -1;
+vector<int> Backend::getTotals() {
+    vector<int> count = {-1,-1,-1};
 
-    QSqlDatabase db = QSqlDatabase::addDatabase("QODBC", "totalWork");
+    QSqlDatabase db = QSqlDatabase::addDatabase("QODBC", "getTotals");
     db.setDatabaseName("Paintings");
     db.setUserName("root");
     db.setPassword("root");
@@ -35,9 +35,14 @@ int Backend::totalWork() {
     }
 
     QSqlQuery query(db);
-    if(query.exec("SELECT COUNT(*) FROM work")) {
+    if(query.exec(("SELECT "
+                    "(SELECT COUNT(*) FROM work), "
+                    "(SELECT COUNT(*) FROM artist), "
+                    "(SELECT COUNT(*) FROM museum)"))) {
         if(query.next()) {
-            int count = query.value(0).toInt();
+            count[0] = query.value(0).toInt();
+            count[1] = query.value(1).toInt();
+            count[2] = query.value(2).toInt();
         }
         else {
             qDebug() << "Query failed.";
@@ -214,10 +219,12 @@ vector<string> Backend::searchArtistWorkPrice(const string& artistName) {
     }
 
     while(query.next()) {
-        QString name = query.value("name").toString();
-        QString salePrice = query.value("sale_price").toString();
-        QString regularPrice = query.value("regular_price").toString();
+        QString full_name = query.value(0).toString();
+        QString name = query.value(1).toString();
+        QString salePrice = query.value(2).toString();
+        QString regularPrice = query.value(3).toString();
 
+        result.push_back(full_name.toStdString());
         result.push_back(name.toStdString());
         result.push_back(salePrice.toStdString());
         result.push_back(regularPrice.toStdString());
@@ -583,3 +590,45 @@ vector<string> Backend::searchWorkSize(const string& workSize) {
     return result;
 }
 // WorkInfoByID (for getting random potd)
+vector<string> Backend::searchWorkInfo(const string& workName) {
+    vector<string> result;
+
+    QSqlDatabase db = QSqlDatabase::addDatabase("QODBC", "searchWorkInfo");
+    db.setDatabaseName("Paintings");
+    db.setUserName("root");
+    db.setPassword("root");
+
+    if (!db.open()) {
+        qDebug() << "Database error:" << db.lastError().text();
+        return result; // Return empty list on failure
+    }
+
+    QSqlQuery query(db);
+
+    query.prepare("{ CALL getWorkInfoByName(?) }");
+    query.bindValue(0, QString::fromStdString(workName));
+
+    if (!query.exec()) {
+        qDebug() << "Query execution failed:" << query.lastError().text();
+        return result;
+    }
+
+    while(query.next()) {
+        QString name = query.value("name").toString();
+        QString style = query.value("style").toString();
+        QString url = query.value("url").toString();
+        QString subject = query.value("subject").toString();
+
+
+        result.push_back(name.toStdString());
+        result.push_back(style.toStdString());
+        result.push_back(url.toStdString());
+        result.push_back(subject.toStdString());
+
+    }
+    if (result.empty()) {
+        qDebug() << "Work not found.";
+    }
+
+    return result;
+}

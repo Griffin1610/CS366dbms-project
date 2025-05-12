@@ -82,7 +82,7 @@
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>280</x>
+      <x>250</x>
       <y>0</y>
       <width>1116</width>
       <height>768</height>
@@ -92,30 +92,63 @@
      <number>1</number>
     </property>
     <widget class="QWidget" name="homePage">
+     <widget class="QPushButton" name="statsButton">
+      <property name="geometry">
+       <rect>
+        <x>760</x>
+        <y>390</y>
+        <width>101</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Show Statistics</string>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="statsList">
+      <property name="geometry">
+       <rect>
+        <x>690</x>
+        <y>440</y>
+        <width>256</width>
+        <height>192</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="statsButton_2">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>390</y>
+        <width>171</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Show Painting of the Day</string>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="statsList_2">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>440</y>
+        <width>256</width>
+        <height>192</height>
+       </rect>
+      </property>
+     </widget>
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
-        <x>380</x>
-        <y>390</y>
-        <width>111</width>
+        <x>490</x>
+        <y>180</y>
+        <width>271</width>
         <height>16</height>
        </rect>
       </property>
       <property name="text">
-       <string>Painting of the Day</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_2">
-      <property name="geometry">
-       <rect>
-        <x>780</x>
-        <y>390</y>
-        <width>49</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Statistics</string>
+       <string>Welcome to the Famous Paintings Application!</string>
       </property>
      </widget>
     </widget>
@@ -130,23 +163,10 @@
        </rect>
       </property>
      </widget>
-     <widget class="QPushButton" name="listAllWorksButton">
-      <property name="geometry">
-       <rect>
-        <x>220</x>
-        <y>190</y>
-        <width>151</width>
-        <height>26</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>List of all Paintings</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="workInfoButton">
       <property name="geometry">
        <rect>
-        <x>450</x>
+        <x>280</x>
         <y>190</y>
         <width>151</width>
         <height>26</height>
@@ -156,24 +176,11 @@
        <string>Painting Information</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="artistsNationalitiesButton">
-      <property name="geometry">
-       <rect>
-        <x>680</x>
-        <y>190</y>
-        <width>151</width>
-        <height>26</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Artists' Nationalities</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="workInMuseumButton">
       <property name="geometry">
        <rect>
-        <x>220</x>
-        <y>270</y>
+        <x>280</x>
+        <y>290</y>
         <width>151</width>
         <height>26</height>
        </rect>
@@ -185,8 +192,8 @@
      <widget class="QPushButton" name="paintingSizeInfoButton">
       <property name="geometry">
        <rect>
-        <x>450</x>
-        <y>270</y>
+        <x>630</x>
+        <y>190</y>
         <width>151</width>
         <height>26</height>
        </rect>
@@ -198,8 +205,8 @@
      <widget class="QPushButton" name="paintingPriceButton">
       <property name="geometry">
        <rect>
-        <x>680</x>
-        <y>270</y>
+        <x>630</x>
+        <y>290</y>
         <width>151</width>
         <height>26</height>
        </rect>
@@ -211,9 +218,9 @@
      <widget class="QTableWidget" name="workTableWidget">
       <property name="geometry">
        <rect>
-        <x>400</x>
+        <x>275</x>
         <y>400</y>
-        <width>256</width>
+        <width>511</width>
         <height>192</height>
        </rect>
       </property>
@@ -398,9 +405,9 @@
      <widget class="QTableWidget" name="museumTableWidget">
       <property name="geometry">
        <rect>
-        <x>225</x>
+        <x>215</x>
         <y>460</y>
-        <width>581</width>
+        <width>611</width>
         <height>192</height>
        </rect>
       </property>

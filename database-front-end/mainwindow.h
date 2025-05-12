@@ -4,11 +4,6 @@
 #include <QMainWindow>
 #include <QSqlDatabase>
 
-#include "artistwindow.h"
-#include "workswindow.h"
-#include "museumwindow.h"
-#include "homewindow.h"
-
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -52,8 +47,6 @@ private slots:
 
     void on_museumInfoButton_clicked();
 
-    void on_listAllWorksButton_clicked();
-
     void on_workInfoButton_clicked();
 
     void on_allArtistsWorksButton_clicked();
@@ -74,14 +67,19 @@ private slots:
 
     void on_workInMuseumButton_clicked();
 
+    void on_statsButton_clicked();
+
+    void on_paintingSizeInfoButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 
     QSqlDatabase connectToDatabase();
-
+/*
     HomeWindow *homeWindow;
     ArtistWindow *artistWindow;
     WorksWindow *worksWindow;
     MuseumWindow *museumWindow;
+*/
 };
 #endif // MAINWINDOW_H
