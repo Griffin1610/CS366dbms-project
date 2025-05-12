@@ -140,7 +140,24 @@ void MainWindow::on_artistInfoButton_clicked()
 // Get all artists' nationality
 void MainWindow::on_artistsNationalitiesButton_clicked()
 {
+    Backend backend;
+    vector<pair<string, string>> artistList = backend.artistNationalityList();
 
+    ui->tableWidget->clear();
+    ui->tableWidget->setRowCount(0);
+    ui->tableWidget->setColumnCount(2);
+    ui->tableWidget->setHorizontalHeaderLabels(QStringList() << "Artist Name" << "Nationality");
+
+    ui->tableWidget->setColumnWidth(0, 150);
+    ui->tableWidget->setColumnWidth(1, 150);
+
+    int row = 0;
+    for (const auto& entry : artistList) {
+        ui->tableWidget->insertRow(row);
+        ui->tableWidget->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(entry.first)));
+        ui->tableWidget->setItem(row, 1, new QTableWidgetItem(QString::fromStdString(entry.second)));
+        row++;
+    }
 }
 
 // Get all artists

@@ -632,3 +632,35 @@ vector<string> Backend::searchWorkInfo(const string& workName) {
 
     return result;
 }
+
+vector<pair<string,string>> Backend::artistNationalityList() {
+    vector<pair<string,string>> result;
+
+    QSqlDatabase db = QSqlDatabase::addDatabase("QODBC", "searchWorkInfo");
+    db.setDatabaseName("Paintings");
+    db.setUserName("root");
+    db.setPassword("root");
+
+    if (!db.open()) {
+        qDebug() << "Database error:" << db.lastError().text();
+        return result; // Return empty list on failure
+    }
+
+    QSqlQuery query(db);
+
+    query.prepare("{ SELECT full_name, nationality FROM artist }");
+
+    if (!query.exec()) {
+        qDebug() << "Query execution failed:" << query.lastError().text();
+        return result;
+    }
+
+    while (query.next()) {
+        QString fullName = query.value("full_name").toString();
+        QString nationality = query.value("nationality").toString();
+
+        result.emplace_back(fullName.toStdString(), nationality.toStdString());
+    }
+
+    return result;
+}
